@@ -4,11 +4,18 @@ FROM python:3.8-slim
 # Setting the work directory inside the container
 WORKDIR /app
 
+# Install system dependencies
+RUN apt-get update \
+    && apt-get install -y --no-install-recommends \
+       build-essential \
+       libpq-dev \
+       gcc \
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/*
+
 # Copy the current directory contents into the container at /app
 COPY . /app
 
-# Creating a virtual environment inside the container
-RUN python3 -m venv venv
 
 # # Activate the virtual environment and install dependencies
 # RUN . venv/bin/activate && pip install --upgrade pip && pip install -r requirements.txt

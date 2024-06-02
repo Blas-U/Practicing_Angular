@@ -23,7 +23,7 @@ def simpler():
     conn = psycopg2.connect(database="postgres", 
                             user="omnifederal", 
                             password="root", 
-                            host="localhost", port="5432") 
+                            host="host.docker.internal", port="5432") 
   
     cur = conn.cursor() 
   
@@ -59,4 +59,4 @@ def simpler():
 
 
 if __name__ == '__main__':
-    app.run(port=PORT)
+    app.run(host='0.0.0.0', port=PORT)
