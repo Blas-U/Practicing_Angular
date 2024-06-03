@@ -3,12 +3,13 @@ import mgrs
 from flask_cors import CORS
 import psycopg2
 from collections import defaultdict
+import os
 
 app = Flask(__name__)
 PORT = 5000
 CORS(app)
 
-app.run(debug=True)
+# app.run(debug=True)
 
 m = mgrs.MGRS()
 
@@ -20,10 +21,18 @@ def simpler():
 
     c = m.toMGRS(jsonData['latitude'],jsonData['longitude'])
 
-    conn = psycopg2.connect(database="postgres", 
-                            user="omnifederal", 
-                            password="root", 
-                            host="host.docker.internal", port="5432") 
+    # conn = psycopg2.connect(database="postgres", 
+    #                         user="omnifederal", 
+    #                         password="root", 
+    #                         host="host.docker.internal", port="5432") 
+    conn = psycopg2.connect(
+    database=os.getenv('POSTGRES_DB'),
+    user=os.getenv('POSTGRES_USER'),
+    password=os.getenv('POSTGRES_PASSWORD'),
+    host=os.getenv('POSTGRES_HOST'),
+    port="5432"
+)
+
   
     cur = conn.cursor() 
   
